@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_sale_service_order_root" name="Service Orders"/>
+
+    <menuitem id="menu_sale_service_order" name="Service Orders"
+              parent="menu_sale_service_order_root"
+              action="action_sale_service_order"/>
+</odoo>
