@@ -13,6 +13,7 @@
         'views/sale_service_order_views.xml',
         'views/menu.xml',
     ],
+    'images': ['static/description/checklist.png'],
     'application': True,
     'installable': True,
     'license': 'LGPL-3',

@@ -16,38 +16,81 @@
         </field>
     </record>
 
+    <record id="view_sale_service_order_tree_modal" model="ir.ui.view">
+        <field name="name">sale.service.order.tree.modal</field>
+        <field name="model">sale.service.order</field>
+        <field name="arch" type="xml">
+            <tree string="Service Orders" create="true" delete="false">
+                <field name="id" invisible="1"/>
+                <field name="source_order_id" invisible="1"/>
+                <header>
+                    <button
+                            name="action_export_all"
+                            type="object"
+                            string="Export All"
+                            class="btn-secondary mr-2"
+                            icon="fa-download"/>
+                    <button
+                            name="action_add_selected"
+                            type="object"
+                            string="Add"
+                            class="btn-primary"
+                            icon="fa-plus"
+                            context="{'preserve_source_order_id': source_order_id}"/>
+                </header>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="price_unit"/>
+                <field name="amount_total"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="view_sale_service_order_form" model="ir.ui.view">
         <field name="name">sale.service.order.form</field>
         <field name="model">sale.service.order</field>
         <field name="arch" type="xml">
             <form string="Service Order">
                 <header>
-                    <button name="action_confirm" type="object" string="Confirm" states="draft"/>
+                    <button name="action_confirm" type="object" class="btn-success" string="Confirm" states="draft"/>
                     <button name="action_cancel" type="object" string="Cancel" states="draft"/>
-                    <button name="action_reset_to_draft" type="object" string="Reset to Draft" states="confirmed,cancelled"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            states="confirmed,cancelled"/>
+                    <button name="action_add_from_history"
+                            type="object"
+                            string="Add From History"
+                            class="btn-primary"
+                            states="draft"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
                     <group>
+                        <div>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group>
                         <group>
-                            <field name="name" readonly="1"/>
-                            <field name="company_id"/>
-                            <field name="currency_id"/>
-                            <field name="salesman_id"/>
-                            <field name="product_id"/>
+                            <field name="product_id"
+                                   attrs="{'readonly': [('state', 'in', ['confirmed', 'cancelled'])]}"/>
+                            <field name="salesman_id"
+                                   attrs="{'readonly': [('state', 'in', ['confirmed', 'cancelled'])]}"/>
                         </group>
                         <group>
-                            <field name="quantity"/>
-                            <field name="price_unit"/>
+                            <field name="quantity" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancelled'])]}"/>
+                            <field name="price_unit"
+                                   attrs="{'readonly': [('state', 'in', ['confirmed', 'cancelled'])]}"/>
                             <field name="amount_total" readonly="1"/>
                         </group>
                     </group>
-
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids"/>
                     <field name="activity_ids"/>
-                    <field name="message_ids"/>
+                    <field name="message_ids" widget="mail_thread"/>
                 </div>
             </form>
         </field>
